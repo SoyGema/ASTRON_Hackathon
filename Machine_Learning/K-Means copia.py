@@ -11,6 +11,10 @@ import numpy as np
 import pandas as pd
 from astropy.table import Table
 from sklearn.externals import joblib
+from sklearn import cluster,preprocessing
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 
 dat = Table.read('high_low_freq_peakedspectrum_table.fits', format='fits')
 df = dat.to_pandas()
@@ -21,17 +25,15 @@ X=df[col_names]
 X=X.dropna()
 
 
-from sklearn import cluster,preprocessing
 
-kmeans_3clusters=cluster.KMeans(n_clusters=2, max_iter=5000)
-kmeans_3clusters.fit(X)
+kmeans_2clusters=cluster.KMeans(n_clusters=2, max_iter=5000)
+kmeans_2clusters.fit(X)
 
-import seaborn as sns
-import matplotlib.pyplot as plt
+
 
 
 labeled_data = X.copy()
-labeled_data['label']=kmeans_3clusters.labels_
+labeled_data['label']=kmeans_2clusters.labels_
 np.unique(labeled_data['label'])
 
 #Export the classifier to add
